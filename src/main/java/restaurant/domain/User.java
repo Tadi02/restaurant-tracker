@@ -4,10 +4,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Máté on 2015.10.18..
- */
-
 @Entity
 @Table(name = "user")
 public class User {

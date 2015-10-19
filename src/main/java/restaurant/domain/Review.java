@@ -2,9 +2,6 @@ package restaurant.domain;
 
 import javax.persistence.*;
 
-/**
- * Created by Máté on 2015.10.18..
- */
 @Entity
 @Table(name = "review")
 public class Review {
@@ -16,7 +13,7 @@ public class Review {
     private User ratedUser;
 
     @ManyToOne
-    private Restaurant ratedRest;
+    private Restaurant ratedRestaurant;
 
     private int valueOfMeal;
 
@@ -42,12 +39,12 @@ public class Review {
         this.ratedUser = rateUser;
     }
 
-    public Restaurant getRatedRest() {
-        return ratedRest;
+    public Restaurant getRatedRestaurant() {
+        return ratedRestaurant;
     }
 
-    public void setRatedRest(Restaurant retedRest) {
-        this.ratedRest = retedRest;
+    public void setRatedRestaurant(Restaurant retedRest) {
+        this.ratedRestaurant = retedRest;
     }
 
     public int getValueOfMeal() {

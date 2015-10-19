@@ -28,7 +28,7 @@ public class Restaurant {
 
     private float gpsCoordY;
 
-    @OneToMany(mappedBy = "ratedRest", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Review> ratings;
 
     public void addRewiev(Review review){
@@ -36,7 +36,7 @@ public class Restaurant {
             this.ratings = new ArrayList<>();
         }
         this.ratings.add(review);
-        review.setRatedRest(this);
+        review.setRatedRestaurant(this);
     }
 
     public List<Review> getRatings() {
