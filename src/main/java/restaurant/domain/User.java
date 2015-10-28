@@ -1,8 +1,10 @@
 package restaurant.domain;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import restaurant.auth.UserRole;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,7 +28,8 @@ public class User implements UserDetails {
 
     private String password;
 
-    private int permissionLevel;
+    @Enumerated(EnumType.ORDINAL)
+    private UserRole permissionLevel;
 
     @OneToMany(mappedBy = "ratedUser", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Review> ratedRestaurants;
@@ -73,8 +76,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //TODO implement this
-        return null;
+        List<GrantedAuthority> authorityList = new ArrayList<>();
+        authorityList.add(new SimpleGrantedAuthority(getPermissionLevel().name()));
+        return authorityList;
     }
 
     public String getPassword() {
@@ -110,11 +114,11 @@ public class User implements UserDetails {
         this.password = encoder.encode(password);
     }
 
-    public int getPermissionLevel() {
+    public UserRole getPermissionLevel() {
         return permissionLevel;
     }
 
-    public void setPermissionLevel(int permissionLevel) {
+    public void setPermissionLevel(UserRole permissionLevel) {
         this.permissionLevel = permissionLevel;
     }
 }
