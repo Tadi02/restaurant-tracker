@@ -31,7 +31,7 @@ public class Restaurant {
     @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Review> ratings;
 
-    public void addRewiev(Review review){
+    public void addReview(Review review){
         if(this.ratings == null){
             this.ratings = new ArrayList<>();
         }
