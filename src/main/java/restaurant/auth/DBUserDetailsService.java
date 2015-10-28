@@ -6,17 +6,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import restaurant.domain.User;
-import restaurant.repository.UserRepository;
+import restaurant.service.UserService;
 
 @Service
 public class DBUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+        User user = userService.getUserByEmail(username);
         if(user == null){
             throw new UsernameNotFoundException(username + " - User not found.");
         }
