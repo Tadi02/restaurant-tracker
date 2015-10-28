@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bejelentkezés</title>
+</head>
+<body>
+<form name="loginForm" th:action="@{/login}" method="post">
+    Email: <input type="text" name="username" /><br/>
+    Password: <input type="password" name="password" />
+    <button type="submit" class="btn">Bejelentkezés</button>
+    <div th:if="${param.error}">
+        Érvénytelen felhasználónév vagy jelszó.
+    </div>
+    <div th:if="${param.logout}">
+        Sikeres kijelentkezés.
+    </div>
+</form>
+</body>
+</html>
