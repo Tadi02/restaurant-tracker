@@ -2,7 +2,9 @@ package restaurant.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import restaurant.auth.UserRole;
 import restaurant.domain.User;
+import restaurant.dto.RegisteringUser;
 import restaurant.repository.UserRepository;
 
 @Service
@@ -27,4 +29,19 @@ public class UserService {
         userRepository.delete(id);
     }
 
+    public boolean isEmailAvailable(String email){
+        if(getUserByEmail(email) != null){
+            return false;
+        }
+        return true;
+    }
+
+    public void registerUser(RegisteringUser registeringUser) {
+        User user = new User();
+        user.setEmail(registeringUser.getEmail());
+        user.setName(registeringUser.getName());
+        user.setPassword(registeringUser.getPassword());
+        user.setPermissionLevel(UserRole.ROLE_USER);
+        saveUser(user);
+    }
 }

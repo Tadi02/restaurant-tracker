@@ -32,7 +32,6 @@ public class User implements UserDetails {
     @Email
     private String email;
 
-    @Size(min = 6, max = 50)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
