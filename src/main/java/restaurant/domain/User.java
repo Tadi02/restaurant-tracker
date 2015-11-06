@@ -1,5 +1,6 @@
 package restaurant.domain;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import restaurant.auth.UserRole;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,11 +24,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Size(min = 1, max = 50)
     private String name;
 
     @Column(unique = true)
+    @Size(min = 1, max = 100)
+    @Email
     private String email;
 
+    @Size(min = 6, max = 50)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
