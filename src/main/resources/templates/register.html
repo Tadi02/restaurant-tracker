@@ -1,51 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 <head>
     <meta charset="UTF-8"/>
     <title>Regisztráció</title>
 </head>
 <body>
-<form th:action="@{/register}" th:object="${user}" method="post">
-    <div class="small-12 medium-6 columns">
-        <div class="row">
-            <div class="small-4 columns">
-                <label class="right inline">Név</label>
+<div layout:fragment="content">
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <div class="small-12 medium-6 columns">
+            <div class="row">
+                <div class="small-4 columns">
+                    <label class="right inline">Név</label>
+                </div>
+                <div class="small-8 columns">
+                    <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? error : ''"/>
+                </div>
+                <div th:if="${#fields.hasErrors('name')}" class="small-8 columns error">
+                    <small class="error" th:errors="*{name}"></small>
+                </div>
             </div>
-            <div class="small-8 columns">
-                <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? error : ''"/>
+            <div class="row">
+                <div class="small-4 columns">
+                    <label class="right inline">Email</label>
+                </div>
+                <div class="small-8 columns">
+                    <input type="text" th:field="*{email}" th:class="${#fields.hasErrors('email')}? error : ''"/>
+                </div>
+                <div th:if="${#fields.hasErrors('email')}" class="small-8 columns error">
+                    <small class="error" th:errors="*{email}"></small>
+                </div>
             </div>
-            <div th:if="${#fields.hasErrors('name')}" class="small-8 columns error">
-                <small class="error" th:errors="*{name}"></small>
+            <div class="row">
+                <div class="small-4 columns">
+                    <label class="right inline">Jelszó</label>
+                </div>
+                <div class="small-8 columns">
+                    <input type="password" th:field="*{password}"
+                           th:class="${#fields.hasErrors('password')}? error : ''"/>
+                </div>
+                <div th:if="${#fields.hasErrors('password')}" class="small-8 columns error">
+                    <small class="error" th:errors="*{password}"></small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-6 columns" style="text-align: center;">
+                    <input type="submit" class="button alert radius expand" value="Regisztrálok"/>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="small-4 columns">
-                <label class="right inline">Email</label>
-            </div>
-            <div class="small-8 columns">
-                <input type="text" th:field="*{email}" th:class="${#fields.hasErrors('email')}? error : ''"/>
-            </div>
-            <div th:if="${#fields.hasErrors('email')}" class="small-8 columns error">
-                <small class="error" th:errors="*{email}"></small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="small-4 columns">
-                <label class="right inline">Jelszó</label>
-            </div>
-            <div class="small-8 columns">
-                <input type="password" th:field="*{password}" th:class="${#fields.hasErrors('password')}? error : ''"/>
-            </div>
-            <div th:if="${#fields.hasErrors('password')}" class="small-8 columns error">
-                <small class="error" th:errors="*{password}"></small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="small-6 columns" style="text-align: center;">
-                <input type="submit" class="button alert radius expand" value="Regisztrálok" />
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
+<div th:replace="footer"></div>
 </body>
 </html>
