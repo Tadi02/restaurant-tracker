@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Térkép</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content" id="map">
+    <script>
+
+        function initMap() {
+
+            var myLatLng = {lat: 47.497912, lng: 19.04023499999994};
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: myLatLng
+            });
+
+            $.ajax({
+                method: "GET",
+                url: "/map/data",
+                dataType: "json",
+                success: function(result){
+                    $.each(result, function(index, restaurant) {
+                        var infowindow = new google.maps.InfoWindow({
+                            content: restaurant.name
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: {lat: restaurant.gpsCoordX, lng: restaurant.gpsCoordY},
+                            map: map,
+                            label: restaurant.name,
+                            title: restaurant.name
+                        });
+
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
+                    });
+                }
+            });
+
+
+        }
+
+    </script>
+    <script async="" defer=""
+            th:src="@{https://maps.googleapis.com/maps/api/js(key=${apiKey},signed_in=true,callback=initMap)}"></script>
+</div>
+</body>
+</html>
