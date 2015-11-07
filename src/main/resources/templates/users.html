@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <meta charset="UTF-8" />
+    <title>Felhasználók</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Név</th>
+            <th>Admin</th>
+            <th>Szerkesztés</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.name}"></td>
+            <td><span th:if="${user.permissionLevel == T(restaurant.auth.UserRole).ROLE_ADMIN}">+</span></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <span th:if="not ${current == 0}"><a th:href="@{/admin/users/(page=${current - 1})}">Előző</a></span>
+    <span th:if="not ${isLast}"><a th:href="@{/admin/users/(page=${current + 1})}">Következő</a></span>
+</div>
+</body>
+</html>
