@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import restaurant.auth.UserRole;
 import restaurant.domain.User;
@@ -30,6 +31,17 @@ public class UserService {
 
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    public User updateUser(long id, User update){
+        User user = getUser(id);
+        if(user == null){
+            return null;
+        }
+        user.setName(update.getName());
+        user.setEmail(update.getEmail());
+        user.setPermissionLevel(update.getPermissionLevel());
+        return saveUser(user);
     }
 
     public void removeUser(long id) {

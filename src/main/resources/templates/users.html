@@ -20,7 +20,7 @@
             <td th:text="${user.email}"></td>
             <td th:text="${user.name}"></td>
             <td><span th:if="${user.permissionLevel == T(restaurant.auth.UserRole).ROLE_ADMIN}">+</span></td>
-            <td></td>
+            <td><a th:href="@{'/admin/users/' + ${user.id}}">Szerkesztés</a></td>
         </tr>
         </tbody>
     </table>

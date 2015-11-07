@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <meta charset="UTF-8" />
+    <title>Felhasználó szerkesztése</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{'/admin/users/' + ${user.id}}" th:object="${user}" method="post">
+        <div class="small-12 medium-8 medium-centered large-4 large-centered columns">
+            <div class="row">
+                <div class="small-3 columns">
+                    <label class="right inline">Név</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? error : ''"/>
+                </div>
+                <div th:if="${#fields.hasErrors('name')}" class="small-9 columns error">
+                    <small class="error" th:errors="*{name}"></small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label class="right inline">Email</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="text" th:field="*{email}" th:class="${#fields.hasErrors('email')}? error : ''"/>
+                </div>
+                <div th:if="${#fields.hasErrors('email')}" class="small-9 columns error">
+                    <small class="error" th:errors="*{email}"></small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label class="right inline">Jogosultság</label>
+                </div>
+                <div class="small-9 columns">
+                    <select th:field="*{permissionLevel}">
+                        <option th:each="level : ${T(restaurant.auth.UserRole).values()}" th:value="${level}" th:text="#{${level}}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-offset-3 small-9 columns" style="text-align: center;">
+                    <input type="submit" class="button radius expand" value="Mentés"/>
+                </div>
+            </div>
+            <div class="row" th:if="${success == true}">
+                <div data-alert="" class="alert-box success radius small-offset-3 small-9 columns">
+                    Sikeres mentés!
+                    <a href="" class="close">&times;</a>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+</body>
+</html>

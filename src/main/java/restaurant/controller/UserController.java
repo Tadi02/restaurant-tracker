@@ -5,12 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import restaurant.domain.User;
 import restaurant.dto.RegisteringUser;
+import restaurant.exception.NotFoundException;
 import restaurant.service.UserService;
 
 import javax.validation.Valid;
@@ -67,4 +65,23 @@ public class UserController {
         return "users";
     }
 
+    @RequestMapping(value = "/admin/users/{id}", method = RequestMethod.GET)
+    String getUserEditingForm(@ModelAttribute("user") User user, @PathVariable("id") long id, Model model){
+        user = userService.getUser(id);
+        if(user == null){
+            throw new NotFoundException();
+        }
+        model.addAttribute("user",user);
+        return "user_edit";
+    }
+
+    @RequestMapping(value = "/admin/users/{id}", method = RequestMethod.POST)
+    String handleUserEditingForm(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable("id") long id, Model model){
+        if(bindingResult.hasErrors()){
+            return "user_edit";
+        }
+        user = userService.updateUser(id,user);
+        model.addAttribute("success",true);
+        return "user_edit";
+    }
 }
