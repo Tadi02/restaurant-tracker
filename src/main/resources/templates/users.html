@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Felhasználók</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="small-12 medium-8 medium-centered large-6 large-centered columns">
+        <div class="row">
+            <table width="100%">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Név</th>
+                    <th class="centered">Admin</th>
+                    <th class="centered">Szerkesztés</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td class="centered"><span
+                            th:if="${user.permissionLevel == T(restaurant.auth.UserRole).ROLE_ADMIN}"><i class="fi-check"></i></span></td>
+                    <td class="centered"><a th:href="@{'/admin/users/' + ${user.id}}"><i class="fi-page-edit"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="centered">
+                <span th:if="not ${current == 0}"><a th:href="@{/admin/users/(page=${current - 1})}"><i class="fi-arrow-left"></i></a></span>
+                <span th:text="${current + 1}"></span>. oldal
+                <span th:if="not ${isLast}"><a th:href="@{/admin/users/(page=${current + 1})}"><i class="fi-arrow-right"></i></a></span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
