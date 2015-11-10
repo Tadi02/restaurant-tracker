@@ -2,23 +2,37 @@ package restaurant.dto;
 
 import restaurant.domain.PriceCategory;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
 public class RestaurantSearchParams {
 
+    @Size(max = 100)
     private String name;
 
     private PriceCategory priceCategory;
 
+    @Size(max = 300)
     private String description;
 
+    @Min(0)
+    @Max(5)
     private Double valueOfMeal;
     private ReviewSearchDirection valueOfMealDirection;
 
+    @Min(0)
+    @Max(5)
     private Double valueOfService;
     private ReviewSearchDirection valueOfServiceDirection;
 
+    @Min(0)
+    @Max(5)
     private Double speedOfService;
     private ReviewSearchDirection speedOfServiceDirection;
 
+    @Min(0)
+    @Max(5)
     private Double environment;
     private ReviewSearchDirection environmentDirection;
 
