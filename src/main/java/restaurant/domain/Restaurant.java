@@ -29,6 +29,14 @@ public class Restaurant {
 
     private float gpsCoordY;
 
+    private double valueOfMealScore;
+
+    private double valueOfServiceScore;
+
+    private double speedOfServiceScore;
+
+    private double environmentScore;
+
     @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Review> ratings;
 
@@ -118,5 +126,37 @@ public class Restaurant {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getValueOfMealScore() {
+        return valueOfMealScore;
+    }
+
+    public void setValueOfMealScore(double valueOfMealScore) {
+        this.valueOfMealScore = valueOfMealScore;
+    }
+
+    public double getValueOfServiceScore() {
+        return valueOfServiceScore;
+    }
+
+    public void setValueOfServiceScore(double valueOfServiceScore) {
+        this.valueOfServiceScore = valueOfServiceScore;
+    }
+
+    public double getSpeedOfServiceScore() {
+        return speedOfServiceScore;
+    }
+
+    public void setSpeedOfServiceScore(double speedOfServiceScore) {
+        this.speedOfServiceScore = speedOfServiceScore;
+    }
+
+    public double getEnvironmentScore() {
+        return environmentScore;
+    }
+
+    public void setEnvironmentScore(double environmentScore) {
+        this.environmentScore = environmentScore;
     }
 }
