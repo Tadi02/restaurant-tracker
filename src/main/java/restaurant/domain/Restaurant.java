@@ -22,6 +22,7 @@ public class Restaurant {
 
     private String url;
 
+    @JsonIgnore
     @Enumerated(EnumType.ORDINAL)
     private PriceCategory priceCategory;
 
@@ -38,6 +39,8 @@ public class Restaurant {
     private double speedOfServiceScore;
 
     private double environmentScore;
+
+    private transient String priceCategoryString;
 
     @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JsonIgnore
@@ -162,4 +165,14 @@ public class Restaurant {
     public void setEnvironmentScore(double environmentScore) {
         this.environmentScore = environmentScore;
     }
+
+    public String getPriceCategoryString() {
+        return priceCategoryString;
+    }
+
+    public void setPriceCategoryString(String priceCategoryString) {
+        this.priceCategoryString = priceCategoryString;
+    }
+
+
 }

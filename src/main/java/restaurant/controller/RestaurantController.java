@@ -2,7 +2,9 @@ package restaurant.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,8 @@ import restaurant.service.RestaurantService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
+
 
 @Controller
 @PropertySource("classpath:key.properties")
@@ -24,6 +28,9 @@ public class RestaurantController {
 
     @Value("${google.maps.api.key}")
     private String googleAPIKey;
+
+    @Autowired
+    MessageSource messageSource;
 
     @Autowired
     RestaurantService restaurantService;
@@ -52,7 +59,10 @@ public class RestaurantController {
 
     @RequestMapping(value = "/map/data", method = RequestMethod.GET)
     ResponseEntity<List<Restaurant>> getRestaurantData(){
-        return new ResponseEntity<List<Restaurant>>(restaurantService.getAllRestaurants(), HttpStatus.OK);
+        Locale locale = LocaleContextHolder.getLocale();
+        List<Restaurant> restaurants = restaurantService.getAllRestaurants();
+        restaurants.stream().forEach(restaurant -> restaurant.setPriceCategoryString(messageSource.getMessage(restaurant.getPriceCategory().toString(),null,locale)));
+        return new ResponseEntity<List<Restaurant>>(restaurants, HttpStatus.OK);
     }
 
 }
