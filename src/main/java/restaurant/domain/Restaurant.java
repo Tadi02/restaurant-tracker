@@ -20,7 +20,8 @@ public class Restaurant {
 
     private String url;
 
-    private int priceCategory;
+    @Enumerated(EnumType.ORDINAL)
+    private PriceCategory priceCategory;
 
     private String description;
 
@@ -103,11 +104,11 @@ public class Restaurant {
         this.url = url;
     }
 
-    public int getPriceCategory() {
+    public PriceCategory getPriceCategory() {
         return priceCategory;
     }
 
-    public void setPriceCategory(int priceCategory) {
+    public void setPriceCategory(PriceCategory priceCategory) {
         this.priceCategory = priceCategory;
     }
 
