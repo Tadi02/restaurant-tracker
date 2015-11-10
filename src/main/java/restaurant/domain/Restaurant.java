@@ -1,5 +1,7 @@
 package restaurant.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class Restaurant {
     private double environmentScore;
 
     @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Review> ratings;
 
     public void addReview(Review review){

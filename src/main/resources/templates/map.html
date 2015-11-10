@@ -36,7 +36,13 @@
                 success: function(result){
                     $.each(result, function(index, restaurant) {
                         var infowindow = new google.maps.InfoWindow({
-                            content: restaurant.name
+                            content: '<b>' + restaurant.name + '</b><br/>' +
+                                     restaurant.address + '<br/>' +
+                                    'Ár: '+ '<span th:text="#{${restaurant.priceCategory}}"></span>'+'<br/>' +
+                                    'Kiszolgálás gyorsasága: '+ restaurant.speedOfServiceScore + '<br/>' +
+                                    'Kiszolgálás minősége: '+ restaurant.valueOfServiceScore + '<br/>' +
+                                    'Étel minősége: '+ restaurant.valueOfMealScore + '<br/>' +
+                                    'Környezet: ' + restaurant.environmentScore
                         });
 
                         var marker = new google.maps.Marker({
