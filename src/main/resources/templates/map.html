@@ -5,19 +5,18 @@
     <meta charset="UTF-8"/>
     <title>Térkép</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
         #map {
-            height: 100%;
+            height: 500px;
         }
     </style>
 </head>
 <body>
-<div layout:fragment="content" id="map">
+<div layout:fragment="content">
+    <div class="row">
+        <div class="small-12 columns">
+            <div id="map"></div>
+        </div>
+    </div>
     <script>
 
         function initMap() {
