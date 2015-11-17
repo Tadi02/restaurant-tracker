@@ -1,3 +1,47 @@
 .centered{
     text-align: center;
 }
+body {
+    background: #e6c01e;
+    background-image: url("../image/zenbg-1.png"), url("../image/zenbg-2.png");
+    background-repeat: repeat-x, repeat;
+}
+.content-body{
+    background: #ececec;
+    border: 5px solid #9e8d00;
+    border-radius: 5px;
+}
+.content-header{
+    background: brown;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom:40px;
+}
+nav{
+    background: #ececec;
+    border: 5px solid #9e8d00;
+    border-radius: 5px
+}
+nav ul{
+    list-style-type: none;
+    margin: 0;
+}
+nav ul li{
+    min-height: 30px;
+    border-bottom: 2px solid #9e8d00;
+    text-align: center;
+}
+nav li a{
+    text-decoration: none;
+    color: black;
+}
+nav ul li:last-child{
+    border-bottom: none;
+}
+nav ul li:hover{
+    background: rgba(0, 0, 0, 0.21);
+    cursor: pointer;
+}

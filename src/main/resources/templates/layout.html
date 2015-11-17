@@ -8,11 +8,18 @@
     <link rel="stylesheet" th:href="@{/css/foundation.css}"/>
     <link rel="stylesheet" th:href="@{/css/foundation-icons.css}"/>
     <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="image/x-icon"/>
     <script th:src="@{/js/vendor/modernizr.js}"></script>
 </head>
 <body>
 <div th:replace="header :: header" />
-<div layout:fragment="content" />
+<div th:replace="menu :: nav" />
+<div class="content-body medium-7 medium-offset-1 columns">
+    <div class="content-header medium-4 medium-offset-4 columns">
+        Kereső
+    </div>
+    <div layout:fragment="content" />
+</div>
 <div th:replace="footer :: footer" />
 </body>
 </html>
