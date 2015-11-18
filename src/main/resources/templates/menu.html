@@ -9,10 +9,10 @@
             <li><a href="/">Főoldal</a></li>
             <li sec:authorize="!isAuthenticated()"><a href="/login">Bejelentkezés</a></li>
             <li sec:authorize="!isAuthenticated()"><a href="/register">Regisztráció</a></li>
-            <li><a href="/registred/newRestaurant">Új étterem hozzáadása</a></li>
-            <li><a href="/admin/editRestaruants">Éttermek szerkesztése</a></li>
+            <li sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/registred/newRestaurant">Új étterem hozzáadása</a></li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/editRestaruants">Éttermek szerkesztése</a></li>
             <li><a href="/map">Térkép</a></li>
-            <li><a href="/admin/users">Felhasználók</a></li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/users">Felhasználók</a></li>
             <li sec:authorize="isAuthenticated()"><a href="/logout">Kijelentkezés</a></li>
         </ul>
     </nav>
