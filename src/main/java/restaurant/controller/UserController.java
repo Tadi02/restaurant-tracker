@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import restaurant.domain.User;
 import restaurant.dto.RegisteringUser;
 import restaurant.exception.NotFoundException;
@@ -38,18 +39,11 @@ public class UserController {
             }
             if (!bindingResult.hasErrors()) {
                 userService.registerUser(user);
-            }else{
+            } else {
                 return "register";
             }
         }
-        return "redirect:/register/success";
-    }
-
-
-    @RequestMapping(value = "/register/success", method = RequestMethod.GET)
-    String getRegisterSuccessPage() {
-
-        return "registration_success";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/denied", method = RequestMethod.GET)
