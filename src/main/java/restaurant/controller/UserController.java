@@ -52,6 +52,11 @@ public class UserController {
         return "registration_success";
     }
 
+    @RequestMapping(value = "/denied", method = RequestMethod.GET)
+    String getAccessDeniedPage(){
+        return "denied";
+    }
+
     @RequestMapping(value = "/admin/users")
     String getUserAdminPage(Model model, @RequestParam(value = "page", required = false, defaultValue = "0") int page){
         Page<User> users = userService.getUsersPage(page);

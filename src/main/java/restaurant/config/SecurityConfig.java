@@ -36,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 antMatchers("/image/**").permitAll().
                 antMatchers("/map/**").permitAll().
                 anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().
-                and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+                and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").
+                and().exceptionHandling().accessDeniedPage("/denied");
     }
 
 }
