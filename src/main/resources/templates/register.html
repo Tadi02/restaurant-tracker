@@ -5,6 +5,7 @@
     <title>Regisztráció</title>
 </head>
 <body>
+<span layout:fragment="title">Regisztráció</span>
 <div layout:fragment="content">
     <form th:action="@{/register}" th:object="${user}" method="post">
         <div class="small-12 medium-8 medium-centered large-4 large-centered columns">

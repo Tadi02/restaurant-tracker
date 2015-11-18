@@ -5,14 +5,15 @@
     <title>Felhasználó szerkesztése</title>
 </head>
 <body>
+<span layout:fragment="title">Felhasználó szerkesztése</span>
 <div layout:fragment="content">
     <form th:action="@{'/admin/users/' + ${user.id}}" th:object="${user}" method="post">
-        <div class="small-12 medium-8 medium-centered large-4 large-centered columns">
+        <div class="small-12 medium-8 medium-centered large-8 large-centered columns">
             <div class="row">
-                <div class="small-3 columns">
+                <div class="small-4 columns">
                     <label class="right inline">Név</label>
                 </div>
-                <div class="small-9 columns">
+                <div class="small-8 columns">
                     <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? error : ''"/>
                 </div>
                 <div th:if="${#fields.hasErrors('name')}" class="small-9 columns error">
@@ -20,10 +21,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="small-3 columns">
+                <div class="small-4 columns">
                     <label class="right inline">Email</label>
                 </div>
-                <div class="small-9 columns">
+                <div class="small-8 columns">
                     <input type="text" th:field="*{email}" th:class="${#fields.hasErrors('email')}? error : ''"/>
                 </div>
                 <div th:if="${#fields.hasErrors('email')}" class="small-9 columns error">
@@ -31,10 +32,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="small-3 columns">
+                <div class="small-4 columns">
                     <label class="right inline">Jogosultság</label>
                 </div>
-                <div class="small-9 columns">
+                <div class="small-8 columns">
                     <select th:field="*{permissionLevel}">
                         <option th:each="level : ${T(restaurant.auth.UserRole).values()}" th:value="${level}" th:text="#{${level}}"></option>
                     </select>
