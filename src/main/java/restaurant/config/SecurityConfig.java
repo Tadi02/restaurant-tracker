@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import restaurant.auth.DBUserDetailsService;
 
 @Configuration
@@ -34,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 antMatchers("/js/**").permitAll().
                 antMatchers("/image/**").permitAll().
                 antMatchers("/map/**").permitAll().
-                anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll();
+                anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().
+                and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
     }
 
 }

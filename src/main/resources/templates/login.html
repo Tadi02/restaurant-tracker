@@ -1,19 +1,41 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
 <head>
     <title>Bejelentkezés</title>
 </head>
 <body>
-<form name="loginForm" th:action="@{/login}" method="post">
-    Email: <input type="text" name="username" /><br/>
-    Password: <input type="password" name="password" />
-    <button type="submit" class="btn">Bejelentkezés</button>
-    <div th:if="${param.error}">
-        Érvénytelen felhasználónév vagy jelszó.
-    </div>
-    <div th:if="${param.logout}">
-        Sikeres kijelentkezés.
-    </div>
-</form>
+<span layout:fragment="title">Bejelentkezés</span>
+
+<div layout:fragment="content">
+    <form name="loginForm" th:action="@{/login}" method="post">
+        <div class="small-12 medium-8 medium-centered large-6 large-centered columns">
+            <div class="row">
+                <div class="small-3 columns">
+                    <label class="right inline">Email</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="text" name="username"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label class="right inline">Jelszó</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="password" name="password"/>
+                </div>
+            </div>
+            <div class="row">
+                <div th:if="${param.error}" class="small-12 columns error">
+                    <small class="error">Érvénytelen felhasználónév vagy jelszó.</small>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn small-12 columns" type="submit">Bejelentkezés</button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>
