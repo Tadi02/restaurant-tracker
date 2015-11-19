@@ -26,6 +26,7 @@ public class Restaurant {
     @Enumerated(EnumType.ORDINAL)
     private PriceCategory priceCategory;
 
+    @Lob
     private String description;
 
     private float gpsCoordX;
