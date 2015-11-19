@@ -6,115 +6,142 @@
 </head>
 <body>
 <span layout:fragment="title">Étterem kereső</span>
+
 <div layout:fragment="content">
     <form th:action="@{/}" th:object="${search}" method="post">
-        <div class="small-12 medium-10 medium-centered large-10 large-centered columns">
-            <div class="row">
-                <div class="small-4 columns">
+        <div class="row">
+            <div class="small-12 columns">
+                <div class="small-12 medium-2 large-1 columns">
                     <label class="right inline">Név</label>
                 </div>
-                <div class="small-8 columns">
+                <div class="small-12 medium-4 large-3 columns">
                     <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? error : ''"/>
                 </div>
-                <div th:if="${#fields.hasErrors('name')}" class="small-9 columns error">
+                <div th:if="${#fields.hasErrors('name')}" class="small-12 medium-4 large-3 columns error">
                     <small class="error" th:errors="*{name}"></small>
                 </div>
-            </div>
-            <div class="row">
-                <div class="small-4 columns">
+                <div class="small-12 medium-2 large-1 columns">
                     <label class="right inline">Leírás</label>
                 </div>
-                <div class="small-8 columns">
-                    <input type="text" th:field="*{description}" th:class="${#fields.hasErrors('description')}? error : ''"/>
+                <div class="small-12 medium-4 large-3 columns">
+                    <input type="text" th:field="*{description}"
+                           th:class="${#fields.hasErrors('description')}? error : ''"/>
                 </div>
-                <div th:if="${#fields.hasErrors('description')}" class="small-9 columns error">
+                <div th:if="${#fields.hasErrors('description')}" class="small-12 medium-4 large-3 columns error">
                     <small class="error" th:errors="*{description}"></small>
                 </div>
-            </div>
-            <div class="row">
-                <div class="small-4 columns">
+                <div class="small-12 medium-6 large-2 columns">
                     <label class="right inline">Árkategória</label>
                 </div>
-                <div class="small-8 columns">
+                <div class="small-12 medium-6 large-2 columns">
                     <select th:field="*{priceCategory}">
                         <option value=""></option>
-                        <option th:each="level : ${T(restaurant.domain.PriceCategory).values()}" th:value="${level}" th:text="#{${level}}"></option>
+                        <option th:each="level : ${T(restaurant.domain.PriceCategory).values()}" th:value="${level}"
+                                th:text="#{${level}}"></option>
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="small-12 medium-6 large-6 columns">
             <div class="row">
-                <div class="small-4 columns">
-                    <label class="right inline">Kiszolgálás minősége</label>
+                <div class="small-12 medium-4 columns">
+                    <label class="right inline">Kiszolgálás</label>
                 </div>
-                <div class="small-2 columns">
+                <div class="small-12 medium-4 columns">
                     <select th:field="*{valueOfServiceDirection}">
-                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}" th:value="${level}" th:text="#{${level}}"></option>
+                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}"
+                                th:value="${level}"
+                                th:text="#{${level}}"></option>
                     </select>
                 </div>
-                <div class="small-2 left columns">
-                    <input type="number" min="0" max="5" id="valueOfService"  th:field="*{valueOfService}" th:class="${#fields.hasErrors('valueOfService')}? error : ''"/>
+                <div class="small-12 medium-4 columns">
+                    <input type="number" min="0" max="5" id="valueOfService" th:field="*{valueOfService}"
+                           th:class="${#fields.hasErrors('valueOfService')}? error : ''"/>
                 </div>
-                <div th:if="${#fields.hasErrors('valueOfService')}" class="small-9 columns error">
+                <div th:if="${#fields.hasErrors('valueOfService')}" class="small-12 medium-4 columns error">
                     <small class="error" th:errors="*{valueOfService}"></small>
                 </div>
             </div>
             <div class="row">
-                <div class="small-4 columns">
-                    <label class="right inline">Kiszolgálás gyorsasága</label>
+                <div class="small-12 medium-4 columns">
+                    <label class="right inline">Gyorsaság</label>
                 </div>
-                <div class="small-2 columns">
+                <div class="small-12 medium-4 columns">
                     <select th:field="*{speedOfServiceDirection}">
-                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}" th:value="${level}" th:text="#{${level}}"></option>
+                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}"
+                                th:value="${level}"
+                                th:text="#{${level}}"></option>
                     </select>
                 </div>
-                <div class="small-2 left columns">
-                    <input type="number" min="0" max="5" id="speedOfService"  th:field="*{speedOfService}" th:class="${#fields.hasErrors('speedOfService')}? error : ''"/>
+                <div class="small-12 medium-4 columns">
+                    <input type="number" min="0" max="5" id="speedOfService" th:field="*{speedOfService}"
+                           th:class="${#fields.hasErrors('speedOfService')}? error : ''"/>
                 </div>
-                <div th:if="${#fields.hasErrors('speedOfService')}" class="small-9 columns error">
+                <div th:if="${#fields.hasErrors('speedOfService')}" class="small-12 medium-4 columns error">
                     <small class="error" th:errors="*{speedOfService}"></small>
                 </div>
             </div>
+        </div>
+        <div class="small-12 medium-6 columns">
             <div class="row">
-                <div class="small-4 columns">
-                    <label class="right inline">Étel minősége</label>
+                <div class="small-12 medium-4 columns">
+                    <label class="right inline">Étel</label>
                 </div>
-                <div class="small-2 columns">
+                <div class="small-12 medium-4 columns">
                     <select th:field="*{valueOfMealDirection}">
-                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}" th:value="${level}" th:text="#{${level}}"></option>
+                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}"
+                                th:value="${level}"
+                                th:text="#{${level}}"></option>
                     </select>
                 </div>
-                <div class="small-2 left columns">
-                    <input type="number" min="0" max="5" id="valueOfMeal"  th:field="*{valueOfMeal}" th:class="${#fields.hasErrors('valueOfMeal')}? error : ''"/>
+                <div class="small-12 medium-4 columns">
+                    <input type="number" min="0" max="5" id="valueOfMeal" th:field="*{valueOfMeal}"
+                           th:class="${#fields.hasErrors('valueOfMeal')}? error : ''"/>
                 </div>
-                <div th:if="${#fields.hasErrors('valueOfMeal')}" class="small-9 columns error">
+                <div th:if="${#fields.hasErrors('valueOfMeal')}" class="small-12 medium-4 columns error">
                     <small class="error" th:errors="*{valueOfMeal}"></small>
                 </div>
             </div>
             <div class="row">
-                <div class="small-4 columns">
+                <div class="small-12 medium-4 columns">
                     <label class="right inline">Környezet</label>
                 </div>
-                <div class="small-2 columns">
+                <div class="small-12 medium-4 columns">
                     <select th:field="*{environmentDirection}">
-                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}" th:value="${level}" th:text="#{${level}}"></option>
+                        <option th:each="level : ${T(restaurant.dto.ReviewSearchDirection).values()}"
+                                th:value="${level}"
+                                th:text="#{${level}}"></option>
                     </select>
                 </div>
-                <div class="small-2 left columns">
-                    <input type="number" min="0" max="5" id="environment"  th:field="*{environment}" th:class="${#fields.hasErrors('environment')}? error : ''"/>
+                <div class="small-12 medium-4 columns">
+                    <input type="number" min="0" max="5" id="environment" th:field="*{environment}"
+                           th:class="${#fields.hasErrors('environment')}? error : ''"/>
                 </div>
-                <div th:if="${#fields.hasErrors('environment')}" class="small-9 columns error">
+                <div th:if="${#fields.hasErrors('environment')}" class="small-12 medium-4 columns error">
                     <small class="error" th:errors="*{environment}"></small>
                 </div>
             </div>
-            <div class="row">
-                <div class="small-offset-3 small-6 columns" style="text-align: center;">
-                    <input type="submit" class="button radius expand" value="Keresés"/>
-                </div>
+        </div>
+        <div class="row">
+            <div class="small-offset-3 small-6 columns" style="text-align: center;">
+                <input type="submit" class="button radius expand" value="Keresés"/>
             </div>
         </div>
     </form>
     <div th:each="restaurant : ${restaurants}">
-        <span th:text="${restaurant.name}"></span>
+        <div style="margin-bottom: 10px;"><b th:text="${restaurant.name}"></b> <i th:text="${restaurant.address}"></i>
+        </div>
+        <div class="row">
+            <div style="margin-bottom: 20px; text-align: justify;" class="small-12 medium-8 columns"><span
+                    th:text="${restaurant.description}"></span></div>
+            <div class="small-12 medium-4 columns">
+                Árkategória: <span th:text="#{${restaurant.priceCategory}}"></span><br/>
+                Étel: <span th:text="${restaurant.valueOfMealScore}"></span><br/>
+                Kiszolgálás: <span th:text="${restaurant.valueOfServiceScore}"></span><br/>
+                Gyorsaság: <span th:text="${restaurant.speedOfServiceScore}"></span><br/>
+                Környezet: <span th:text="${restaurant.environmentScore}"></span><br/>
+            </div>
+        </div>
     </div>
 </div>
 </body>
