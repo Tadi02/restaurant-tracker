@@ -15,8 +15,10 @@
 <div th:replace="header :: header" />
 <div th:replace="menu :: nav" />
 <div class="content-body medium-7 medium-offset-1 columns">
-    <div class="content-header medium-4 medium-offset-4 columns">
-        <span layout:fragment="title"></span>
+    <div class="row">
+        <div class="content-header medium-4 medium-offset-4 columns">
+            <span layout:fragment="title"></span>
+        </div>
     </div>
     <div layout:fragment="content" />
 </div>

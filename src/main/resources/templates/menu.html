@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
 </head>
@@ -9,7 +9,7 @@
             <li><a href="/">Főoldal</a></li>
             <li sec:authorize="!isAuthenticated()"><a href="/login">Bejelentkezés</a></li>
             <li sec:authorize="!isAuthenticated()"><a href="/register">Regisztráció</a></li>
-            <li sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/registred/newRestaurant">Új étterem hozzáadása</a></li>
+            <li sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/newRestaurant">Új étterem hozzáadása</a></li>
             <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/editRestaruants">Éttermek szerkesztése</a></li>
             <li><a href="/map">Térkép</a></li>
             <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/users">Felhasználók</a></li>

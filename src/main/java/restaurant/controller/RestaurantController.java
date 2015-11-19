@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import restaurant.domain.Restaurant;
 import restaurant.dto.RestaurantSearchParams;
+import restaurant.repository.RestaurantRepository;
 import restaurant.service.RestaurantService;
 
 import javax.validation.Valid;
@@ -34,6 +35,9 @@ public class RestaurantController {
 
     @Autowired
     RestaurantService restaurantService;
+
+    @Autowired
+    RestaurantRepository restaurantRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     String getSearchForm(@ModelAttribute("search") RestaurantSearchParams restaurantSearchParams){
@@ -63,6 +67,23 @@ public class RestaurantController {
         List<Restaurant> restaurants = restaurantService.getAllRestaurants();
         restaurants.stream().forEach(restaurant -> restaurant.setPriceCategoryString(messageSource.getMessage(restaurant.getPriceCategory().toString(),null,locale)));
         return new ResponseEntity<List<Restaurant>>(restaurants, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/newRestaurant", method = RequestMethod.GET)
+    String newRestaurant(@ModelAttribute("newRest") Restaurant restaurant){
+        return "new_restaurant";
+    }
+    @RequestMapping(value = "/newRestaurant", method = RequestMethod.POST)
+    String handleNewRestaurant(@Valid @ModelAttribute("newRest") Restaurant restaurant,
+                            BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("result", "error");
+            return "new_restaurant";
+        }
+        restaurantRepository.save(restaurant);
+        model.addAttribute("result", "success");
+        model.addAttribute("newRest", new Restaurant());
+        return "new_restaurant";
     }
 
 }

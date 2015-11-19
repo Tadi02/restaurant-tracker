@@ -40,6 +40,9 @@ public class Restaurant {
 
     private double environmentScore;
 
+
+    private boolean allowed;
+
     private transient String priceCategoryString;
 
     @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
@@ -174,5 +177,12 @@ public class Restaurant {
         this.priceCategoryString = priceCategoryString;
     }
 
+    public boolean getAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(boolean allowed) {
+        this.allowed = allowed;
+    }
 
 }
