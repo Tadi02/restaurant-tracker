@@ -7,15 +7,20 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import restaurant.auth.DBUserDetailsService;
 import restaurant.domain.Restaurant;
+import restaurant.domain.Review;
+import restaurant.domain.User;
 import restaurant.dto.RestaurantSearchParams;
 import restaurant.repository.RestaurantRepository;
+import restaurant.repository.ReviewRepository;
+import restaurant.repository.UserRepository;
 import restaurant.service.RestaurantService;
 
 import javax.validation.Valid;
@@ -38,6 +43,12 @@ public class RestaurantController {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    ReviewRepository reviewRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     String getSearchForm(@ModelAttribute("search") RestaurantSearchParams restaurantSearchParams){
@@ -86,4 +97,15 @@ public class RestaurantController {
         return "new_restaurant";
     }
 
+    @RequestMapping(value = "/admin/editRestaruants", method = RequestMethod.GET)
+    String editRestaurants(Model model){
+
+        return "edit_restaurants";
+    }
+
+    @RequestMapping(value="/restaurant/{id}", method = RequestMethod.GET)
+    String getRestaurant(Model model, @PathVariable("id") long id){
+        model.addAttribute("rest",restaurantRepository.findOne(id));
+        return "restaurant_details";
+    }
 }

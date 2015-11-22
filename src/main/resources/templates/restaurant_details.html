@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Étterem részletei</title>
+</head>
+<span layout:fragment="title"><span th:text="${rest.name}"></span> részletei, értkékelés</span>
+<body>
+    <div layout:fragment="content">
+        <div class="row">
+            <h2 th:text="${rest.name}" />
+            <p>
+                <span th:text="${rest.address}" />
+                <br /><span th:text="${rest.phoneNumber}" />
+                <br /><a th:href="@{http://{url}(url=${rest.url})}">Weboldal</a>
+            </p>
+        </div>
+        <div class="row">
+            <h4>Leírás:</h4>
+            <div th:text="${rest.description}" />
+        </div>
+        <br />
+        <div class="row">
+            <h5>Árkategória: <span th:text="#{${rest.priceCategory}}" /></h5>
+        </div>
+        <hr />
+        <h5>Értékeld az éttermet:</h5>
+        <div class="row">
+            <div class="medium-12">
+                <div class="medium-7 columns">Milyennek találtad a környezetet?</div>
+                <div class="medium-2 columns">
+                    <select onchange="chEnvir()" id="envir">
+                        <option value="0">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="medium-3 columns left">Átlag: </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12">
+                <div class="medium-7 columns">Mennyire voltál elégedett a kiszolgálás sebességével?</div>
+                <div class="medium-2 columns">
+                    <select onchange="chSpeedServ()" id="speedServ">
+                        <option value="0">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="medium-3 columns left">Átlag: </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12">
+                <div class="medium-7 columns">Milyennek találtad az ételet?</div>
+                <div class="medium-2 columns">
+                    <select onchange="chDish()" id="dish">
+                        <option value="0">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="medium-3 columns left">Átlag: </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12">
+                <div class="medium-7 columns">Milyen volt a kiszolgálás?</div>
+                <div class="medium-2 columns">
+                    <select onchange="chServe()" id="serv">
+                        <option value="0">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="medium-3 columns left">Átlag: </div>
+            </div>
+        </div>
+    </div>
+    <div layout:fragment="script">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            function chServe(){
+                var servScore = $("#serv").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/remote/restaurant/[[${rest.id}]]/saverating",
+                    data: {
+                        rateType: "serv",
+                        rateScore: servScore
+                    },
+                    success: function (data) {
+
+                    }
+                });
+            }
+            function chDish(){
+                var dishScore = $("#dish").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/remote/restaurant/[[${rest.id}]]/saverating",
+                    data: {
+                        rateType: "dish",
+                        rateScore: servScore
+                    },
+                    success: function (data) {
+
+                    }
+                });
+            }
+            function chSpeedServ(){
+                var speedScore = $("#speedServ").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/remote/restaurant/[[${rest.id}]]/saverating",
+                    data: {
+                        rateType: "speedServ",
+                        rateScore: servScore
+                    },
+                    success: function (data) {
+
+                    }
+                });
+            }
+            function chEnvir(){
+                var envirScore = $("#envir").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/remote/restaurant/[[${rest.id}]]/saverating",
+                    data: {
+                        rateType: "envir",
+                        rateScore: servScore
+                    },
+                    success: function (data) {
+
+                    }
+                });
+            }
+            /*]]>*/
+        </script>
+    </div>
+</body>
+</html>
