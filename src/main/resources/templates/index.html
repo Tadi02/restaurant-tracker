@@ -129,7 +129,7 @@
         </div>
     </form>
     <div th:each="restaurant : ${restaurants}">
-        <div style="margin-bottom: 10px;"><a th:href="@{/restaurant/{id}(id=${restaurant.id})}"><b th:text="${restaurant.name}"></b></a><i th:text="${restaurant.address}"></i>
+        <div style="margin-bottom: 10px;"><a th:href="@{/restaurant/{id}(id=${restaurant.id})}"><b th:text="${restaurant.name}"></b></a> <i th:text="${restaurant.address}"></i>
         </div>
         <div class="row">
             <div style="margin-bottom: 20px; text-align: justify;" class="small-12 medium-8 columns"><span

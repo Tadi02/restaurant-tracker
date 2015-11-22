@@ -22,6 +22,8 @@ public class RestaurantSpecification {
                 List<Predicate> predicates = new ArrayList<>();
                 query.distinct(true);
 
+                predicates.add(cb.equal(root.get("allowed"),1));
+
                 if(searchParams.getName() != null ){
                     if(!searchParams.getName().isEmpty()) {
                         predicates.add(cb.like(root.get("name"), "%" + searchParams.getName() + "%"));
