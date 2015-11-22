@@ -42,7 +42,8 @@
                                     'Kiszolgálás gyorsasága: '+ restaurant.speedOfServiceScore + '<br/>' +
                                     'Kiszolgálás minősége: '+ restaurant.valueOfServiceScore + '<br/>' +
                                     'Étel minősége: '+ restaurant.valueOfMealScore + '<br/>' +
-                                    'Környezet: ' + restaurant.environmentScore
+                                    'Környezet: ' + restaurant.environmentScore + '<br/>' +
+                                    '<a target="_blank" href="/restaurant/'+  restaurant.id + '">Részletek...</a>'
                         });
 
                         var marker = new google.maps.Marker({
