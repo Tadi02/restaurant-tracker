@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <title>Étterem részletei</title>
@@ -24,6 +24,7 @@
             <h5>Árkategória: <span th:text="#{${rest.priceCategory}}" /></h5>
         </div>
         <hr />
+        <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
         <h5>Értékeld az éttermet:</h5>
         <div class="row">
             <div class="medium-12">
@@ -38,7 +39,7 @@
                         <option value="5">5</option>
                     </select>
                 </div>
-                <div class="medium-3 columns left">Átlag: </div>
+                <div class="medium-3 columns left">Átlag: <span th:id="restEnvScore" th:text="${rest.environmentScore}" /> </div>
             </div>
         </div>
         <div class="row">
@@ -54,7 +55,7 @@
                         <option value="5">5</option>
                     </select>
                 </div>
-                <div class="medium-3 columns left">Átlag: </div>
+                <div class="medium-3 columns left">Átlag: <span th:id="restSpeedServScore" th:text="${rest.speedOfServiceScore}" /> </div>
             </div>
         </div>
         <div class="row">
@@ -70,7 +71,7 @@
                         <option value="5">5</option>
                     </select>
                 </div>
-                <div class="medium-3 columns left">Átlag: </div>
+                <div class="medium-3 columns left">Átlag: <span th:id="restDishScore" th:text="${rest.valueOfMealScore}" /> </div>
             </div>
         </div>
         <div class="row">
@@ -86,8 +87,10 @@
                         <option value="5">5</option>
                     </select>
                 </div>
-                <div class="medium-3 columns left">Átlag: </div>
+                <div class="medium-3 columns left">Átlag: <span th:id="restServScore" th:text="${rest.valueOfServiceScore}" /> </div>
             </div>
+        </div>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:id="${_csrf.parameterName}" th:value="${_csrf.token}" />
         </div>
     </div>
     <div layout:fragment="script">
@@ -100,10 +103,14 @@
                     url: "/remote/restaurant/[[${rest.id}]]/saverating",
                     data: {
                         rateType: "serv",
-                        rateScore: servScore
+                        rateScore: servScore,
+                        _csrf: $("#_csrf").val()
                     },
                     success: function (data) {
-
+                        $("#restEnvScore").html(data[0]);
+                        $("#restSpeedServScore").html(data[1]);
+                        $("#restDishScore").html(data[2]);
+                        $("#restServScore").html(data[3]);
                     }
                 });
             }
@@ -114,10 +121,14 @@
                     url: "/remote/restaurant/[[${rest.id}]]/saverating",
                     data: {
                         rateType: "dish",
-                        rateScore: servScore
+                        rateScore: dishScore,
+                        _csrf: $("#_csrf").val()
                     },
                     success: function (data) {
-
+                        $("#restEnvScore").html(data[0]);
+                        $("#restSpeedServScore").html(data[1]);
+                        $("#restDishScore").html(data[2]);
+                        $("#restServScore").html(data[3]);
                     }
                 });
             }
@@ -128,10 +139,14 @@
                     url: "/remote/restaurant/[[${rest.id}]]/saverating",
                     data: {
                         rateType: "speedServ",
-                        rateScore: servScore
+                        rateScore: speedScore,
+                        _csrf: $("#_csrf").val()
                     },
                     success: function (data) {
-
+                        $("#restEnvScore").html(data[0]);
+                        $("#restSpeedServScore").html(data[1]);
+                        $("#restDishScore").html(data[2]);
+                        $("#restServScore").html(data[3]);
                     }
                 });
             }
@@ -142,10 +157,15 @@
                     url: "/remote/restaurant/[[${rest.id}]]/saverating",
                     data: {
                         rateType: "envir",
-                        rateScore: servScore
+                        rateScore: envirScore,
+                        _csrf: $("#_csrf").val()
                     },
                     success: function (data) {
-
+                        $("#restEnvScore").html(data[0]);
+                        $("#restSpeedServScore").html(data[1]);
+                        $("#restDishScore").html(data[2]);
+                        $("#restServScore").html(data[3]);
+//                        restEnvScore restSpeedServScore restDishScore restServScore
                     }
                 });
             }

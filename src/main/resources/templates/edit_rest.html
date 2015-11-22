@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <meta charset="UTF-8" />
+    <title>Étterem szerkesztése</title>
+</head>
+<body>
+<span layout:fragment="title">Étterem szerkesztése</span>
+    <div layout:fragment="content">
+        <h2 th:text="${restaurant.name}"> szerkesztése</h2>
+        <form th:action="@{/edit/restaurant/{id}(id=${restaurant.id})}" th:object="${restaurant}" method="post">
+            <div class="small-12 medium-10 medium-centered large-10 large-centered">
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Név</label>
+                    </div>
+                    <div class="small-8 columns">
+                        <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? error : ''"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('name')}" class="small-9 columns error">
+                        <small class="error" th:errors="*{name}"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Cím</label>
+                    </div>
+                    <div class="small-8 columns">
+                        <input type="text" th:field="*{address}" th:class="${#fields.hasErrors('address')}? error : ''"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('address')}" class="small-9 columns error">
+                        <small class="error" th:errors="*{address}"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Telefonszám</label>
+                    </div>
+                    <div class="small-8 columns">
+                        <input type="text" th:field="*{phoneNumber}" th:class="${#fields.hasErrors('phoneNumber')}? error : ''"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('phoneNumber')}" class="small-9 columns error">
+                        <small class="error" th:errors="*{phoneNumber}"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Web cím</label>
+                    </div>
+                    <div class="small-8 columns">
+                        <input type="text" th:field="*{url}" th:class="${#fields.hasErrors('url')}? error : ''"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('url')}" class="small-9 columns error">
+                        <small class="error" th:errors="*{url}"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Leírás</label>
+                    </div>
+                    <div class="small-8 columns">
+                        <textarea rows="4" th:field="*{description}" th:class="${#fields.hasErrors('description')}? error : ''"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('description')}" class="small-9 columns error">
+                        <small class="error" th:errors="*{description}"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Koordináta (x/y)</label>
+                    </div>
+                    <div class="small-3 columns">
+                        <input type="text" th:field="*{gpsCoordX}" th:class="${#fields.hasErrors('gpsCoordX')}? error : ''"/>
+                    </div>
+                    <div class="small-3 left columns">
+                        <input type="text" th:field="*{gpsCoordY}" th:class="${#fields.hasErrors('gpsCoordY')}? error : ''"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('gpsCoordX')}" class="small-9 columns error">
+                        <small class="error" th:errors="*{gpsCoordX}"></small>
+                    </div>
+                    <div th:if="${#fields.hasErrors('gpsCoordY')}" class="small-9 columns error">
+                        <small class="error" th:errors="*{gpsCoordY}"></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Árkategória</label>
+                    </div>
+                    <div class="small-3 left columns">
+                        <select th:field="*{priceCategory}">
+                            <option value=""></option>
+                            <option th:each="level : ${T(restaurant.domain.PriceCategory).values()}" th:value="${level}" th:text="#{${level}}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label class="right inline">Jóváhagyás</label>
+                    </div>
+                    <div class="small-3 left columns">
+                        <select th:field="*{allowed}">
+                            <option value="true">Engedélyes</option>
+                            <option value="false">Elutasít</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div th:if="${restaurant.allowed}" class="small-offset-5 small-4 columns" style="text-align: center;">
+                        <input type="submit" class="button radius expand" value="Mentés"/>
+                    </div>
+                    <div th:if="${!restaurant.allowed}" class="small-offset-5 small-4 columns">
+                        <button th:type="submit" class="button radius expand">Mentés és jóváhagyás</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

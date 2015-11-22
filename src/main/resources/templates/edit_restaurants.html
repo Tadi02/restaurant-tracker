@@ -4,8 +4,47 @@
     <meta charset="UTF-8"/>
     <title>Új étterem rögzítése</title>
 </head>
-<span layout:fragment="title">Éttermek szerkesztése, jóváhagyása</span>
+<span layout:fragment="title">Éttermek szerkesztése</span>
 <body>
+<div layout:fragment="content">
 
+<h3>Jóváhagyandó éttermek</h3>
+<table class="hover">
+    <tr>
+        <th>Étterem neve</th>
+        <th>Részetek és jóváhagyás</th>
+    </tr>
+    <tr th:each="pendr : ${pendingRest}">
+        <td th:text="${pendr.name}" />
+        <td><a class="button tiny unibut" th:href="@{/edit/restaurant/{id}(id=${pendr.id})}">Részletek</a></td>
+    </tr>
+</table>
+<h3>Összes éttermek</h3>
+<table class="hover">
+    <tr>
+        <th>Étterem neve</th>
+        <th>Szerkesztés</th>
+        <th>Törlés</th>
+    </tr>
+    <tr th:each="allr : ${allRest}">
+        <td th:text="${allr.name}" />
+        <td><a class="button tiny unibut" th:href="@{/edit/restaurant/{id}(id=${allr.id})}">Szerkesztés</a></td>
+        <td><button class="button tiny alert unibut" th:onclick="@{deleteRest({id},'{csrf}')(id=${allr.id},csrf=${_csrf.token})}">Törlés</button></td>
+    </tr>
+</table>
+</div>
+<div layout:fragment="script">
+    <script th:inline="javascript">
+        function deleteRest(id,csrf){
+            $.ajax({
+                method: "DELETE",
+                url: "/delete/restaurant" + "?" + $.param({"id": id,"_csrf":csrf}),
+                success: function (data) {
+                    location.href = "/admin/editRestaruants";
+                }
+            });
+        }
+    </script>
+</div>
 </body>
 </html>

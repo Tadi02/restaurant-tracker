@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import restaurant.auth.DBUserDetailsService;
+import restaurant.auth.UserRole;
 import restaurant.domain.Restaurant;
 import restaurant.domain.Review;
 import restaurant.domain.User;
@@ -84,12 +85,18 @@ public class RestaurantController {
     String newRestaurant(@ModelAttribute("newRest") Restaurant restaurant){
         return "new_restaurant";
     }
+
     @RequestMapping(value = "/newRestaurant", method = RequestMethod.POST)
     String handleNewRestaurant(@Valid @ModelAttribute("newRest") Restaurant restaurant,
                             BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("result", "error");
             return "new_restaurant";
+        }
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User loggedInUser = userRepository.findByEmail(username);
+        if(loggedInUser.getPermissionLevel() == UserRole.ROLE_ADMIN){
+            restaurant.setAllowed(true);
         }
         restaurantRepository.save(restaurant);
         model.addAttribute("result", "success");
@@ -99,13 +106,53 @@ public class RestaurantController {
 
     @RequestMapping(value = "/admin/editRestaruants", method = RequestMethod.GET)
     String editRestaurants(Model model){
-
+        List<Restaurant> allRest = restaurantRepository.findAll();
+        List<Restaurant> pendingRest = restaurantRepository.findByAllowed(false);
+        model.addAttribute("allRest",allRest);
+        model.addAttribute("pendingRest",pendingRest);
         return "edit_restaurants";
     }
 
+    @RequestMapping(value = "/edit/restaurant/{id}", method = RequestMethod.GET)
+    String editRestaurant(Model model, @PathVariable("id") long restaurantId){
+        Restaurant restaurant = restaurantRepository.findOne(restaurantId);
+        model.addAttribute("restaurant",restaurant);
+        return "edit_rest";
+    }
+
+    @RequestMapping(value = "/edit/restaurant/{id}", method = RequestMethod.POST)
+    String handleEditRestaurant(@Valid @ModelAttribute("restaurant") Restaurant restaurant,
+                               BindingResult bindingResult, Model model,
+                                @PathVariable("id") long id){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("restaurant", restaurant);
+            return "edit_rest";
+        }
+        Restaurant newRestaurant = restaurantRepository.findOne(id);
+        newRestaurant = restaurant;
+        restaurantRepository.save(newRestaurant);
+        List<Restaurant> allRest = restaurantRepository.findAll();
+        List<Restaurant> pendingRest = restaurantRepository.findByAllowed(false);
+        model.addAttribute("allRest",allRest);
+        model.addAttribute("pendingRest",pendingRest);
+        return "edit_restaurants";
+    }
+
+    @RequestMapping(value = "/delete/restaurant", method = RequestMethod.DELETE)
+    @ResponseBody String handleDeleteRestaurant(Model model, @RequestParam("id") long id){
+        restaurantRepository.delete(id);
+        List<Restaurant> allRest = restaurantRepository.findAll();
+        List<Restaurant> pendingRest = restaurantRepository.findByAllowed(false);
+        model.addAttribute("allRest",allRest);
+        model.addAttribute("pendingRest",pendingRest);
+        return "edit_restaurants";
+    }
+
+    //TODO bad és invalid id
     @RequestMapping(value="/restaurant/{id}", method = RequestMethod.GET)
     String getRestaurant(Model model, @PathVariable("id") long id){
         model.addAttribute("rest",restaurantRepository.findOne(id));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return "restaurant_details";
     }
 }

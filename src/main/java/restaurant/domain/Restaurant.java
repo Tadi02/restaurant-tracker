@@ -46,7 +46,7 @@ public class Restaurant {
 
     private transient String priceCategoryString;
 
-    @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ratedRestaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Review> ratings;
 
