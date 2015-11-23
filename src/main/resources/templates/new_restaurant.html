@@ -91,7 +91,6 @@
                     </div>
                     <div class="small-3 left columns">
                         <select th:field="*{priceCategory}">
-                            <option value=""></option>
                             <option th:each="level : ${T(restaurant.domain.PriceCategory).values()}" th:value="${level}" th:text="#{${level}}"></option>
                         </select>
                     </div>

@@ -88,7 +88,6 @@
                     </div>
                     <div class="small-3 left columns">
                         <select th:field="*{priceCategory}">
-                            <option value=""></option>
                             <option th:each="level : ${T(restaurant.domain.PriceCategory).values()}" th:value="${level}" th:text="#{${level}}"></option>
                         </select>
                     </div>
@@ -109,7 +108,7 @@
                         <input type="submit" class="button radius expand" value="Mentés"/>
                     </div>
                     <div th:if="${!restaurant.allowed}" class="small-offset-5 small-4 columns">
-                        <button th:type="submit" class="button radius expand">Mentés és jóváhagyás</button>
+                        <button th:type="submit" class="button radius expand">Mentés</button>
                     </div>
                 </div>
             </div>
