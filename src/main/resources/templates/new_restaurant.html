@@ -7,8 +7,12 @@
 <span layout:fragment="title">Új étterem hozzáadása</span>
 <body>
     <div layout:fragment="content">
-        <div th:if="${result == 'success'}">
-            Sikeres mentés!
+
+        <div class="row" th:if="${result == 'success'}">
+            <div data-alert="" class="alert-box success radius small-9 small-centered columns">
+                Sikeres mentés!
+                <a href="" class="close">&times;</a>
+            </div>
         </div>
 
         <form th:action="@{/newRestaurant}" th:object="${newRest}" method="post">
