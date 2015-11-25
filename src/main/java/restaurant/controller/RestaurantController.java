@@ -87,32 +87,7 @@ public class RestaurantController {
         }
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userService.getByEmail(username);
-        if (loggedInUser.getPermissionLevel() == UserRole.ROLE_ADMIN) {
-            restaurant.setAllowed(true);
-        } else {
-            restaurant.setAllowed(false);
-        }
-        Restaurant newRestaurant = new Restaurant();
-        newRestaurant.setId(restaurant.getId());
-        newRestaurant.setAddress(restaurant.getAddress());
-        newRestaurant.setDescription(restaurant.getDescription());
-        try {
-            newRestaurant.setGpsCoordX(Float.valueOf(restaurant.getGpsCoordX()));
-        } catch (NumberFormatException ex) {
-            newRestaurant.setGpsCoordX(0);
-        }
-        try {
-            newRestaurant.setGpsCoordY(Float.valueOf(restaurant.getGpsCoordY()));
-        } catch (NumberFormatException ex) {
-            newRestaurant.setGpsCoordY(0);
-        }
-        newRestaurant.setName(restaurant.getName());
-        newRestaurant.setPhoneNumber(restaurant.getPhoneNumber());
-        newRestaurant.setPriceCategory(restaurant.getPriceCategory());
-        newRestaurant.setUrl(restaurant.getUrl());
-        newRestaurant.setAllowed(restaurant.isAllowed());
-
-        restaurantService.saveRestaurant(newRestaurant);
+        restaurantService.addRestaurant(loggedInUser,restaurant);
         model.addAttribute("result", "success");
         model.addAttribute("newRest", new Restaurant());
         return "new_restaurant";
@@ -130,17 +105,7 @@ public class RestaurantController {
     @RequestMapping(value = "/edit/restaurant/{id}", method = RequestMethod.GET)
     String editRestaurant(Model model, @PathVariable("id") long restaurantId) {
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
-        EditRestaurant er = new EditRestaurant();
-        er.setAddress(restaurant.getAddress());
-        er.setDescription(restaurant.getDescription());
-        er.setGpsCoordX(String.valueOf(restaurant.getGpsCoordX()));
-        er.setGpsCoordY(String.valueOf(restaurant.getGpsCoordY()));
-        er.setName(restaurant.getName());
-        er.setPhoneNumber(restaurant.getPhoneNumber());
-        er.setPriceCategory(restaurant.getPriceCategory());
-        er.setUrl(restaurant.getUrl());
-        er.setId(restaurant.getId());
-        er.setAllowed(restaurant.getAllowed());
+        EditRestaurant er = restaurantService.createEditRestaurantFromRestaurant(restaurant);
         model.addAttribute("restaurant", er);
         return "edit_rest";
     }
@@ -153,33 +118,15 @@ public class RestaurantController {
             model.addAttribute("restaurant", restaurant);
             return "edit_rest";
         }
-        Restaurant newRestaurant = restaurantService.getRestaurantById(id);
-        newRestaurant.setId(restaurant.getId());
-        newRestaurant.setAddress(restaurant.getAddress());
-        newRestaurant.setDescription(restaurant.getDescription());
-        try {
-            newRestaurant.setGpsCoordX(Float.valueOf(restaurant.getGpsCoordX()));
-        }catch (NumberFormatException ex){
-            newRestaurant.setGpsCoordX(0);
-        }
-        try{
-            newRestaurant.setGpsCoordY(Float.valueOf(restaurant.getGpsCoordY()));
-        }catch (NumberFormatException ex){
-            newRestaurant.setGpsCoordY(0);
-        }
-        newRestaurant.setName(restaurant.getName());
-        newRestaurant.setPhoneNumber(restaurant.getPhoneNumber());
-        newRestaurant.setPriceCategory(restaurant.getPriceCategory());
-        newRestaurant.setUrl(restaurant.getUrl());
-        newRestaurant.setAllowed(restaurant.isAllowed());
-
-        restaurantService.saveRestaurant(newRestaurant);
+        restaurantService.updateRestaurant(restaurant, id);
         List<Restaurant> allRest = restaurantService.getAllRestaurant();
         List<Restaurant> pendingRest = restaurantService.getByAllowed(false);
         model.addAttribute("allRest", allRest);
         model.addAttribute("pendingRest", pendingRest);
         return "edit_restaurants";
     }
+
+
 
     @RequestMapping(value = "/delete/restaurant", method = RequestMethod.DELETE)
     @ResponseBody
