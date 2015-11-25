@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import restaurant.auth.DBUserDetailsService;
 import restaurant.auth.UserRole;
 import restaurant.domain.Restaurant;
-import restaurant.domain.Review;
 import restaurant.domain.User;
 import restaurant.dto.EditRestaurant;
 import restaurant.dto.RestaurantSearchParams;
-import restaurant.repository.RestaurantRepository;
-import restaurant.repository.ReviewRepository;
-import restaurant.repository.UserRepository;
 import restaurant.service.RestaurantService;
+import restaurant.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -44,13 +41,7 @@ public class RestaurantController {
     RestaurantService restaurantService;
 
     @Autowired
-    RestaurantRepository restaurantRepository;
-
-    @Autowired
-    ReviewRepository reviewRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     String getSearchForm(@ModelAttribute("search") RestaurantSearchParams restaurantSearchParams) {
@@ -77,7 +68,7 @@ public class RestaurantController {
     @RequestMapping(value = "/map/data", method = RequestMethod.GET)
     ResponseEntity<List<Restaurant>> getRestaurantData() {
         Locale locale = LocaleContextHolder.getLocale();
-        List<Restaurant> restaurants = restaurantRepository.findByAllowed(true);
+        List<Restaurant> restaurants = restaurantService.getByAllowed(true);
         restaurants.stream().forEach(restaurant -> restaurant.setPriceCategoryString(messageSource.getMessage(restaurant.getPriceCategory().toString(), null, locale)));
         return new ResponseEntity<List<Restaurant>>(restaurants, HttpStatus.OK);
     }
@@ -95,7 +86,7 @@ public class RestaurantController {
             return "new_restaurant";
         }
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User loggedInUser = userRepository.findByEmail(username);
+        User loggedInUser = userService.getByEmail(username);
         if (loggedInUser.getPermissionLevel() == UserRole.ROLE_ADMIN) {
             restaurant.setAllowed(true);
         } else {
@@ -121,7 +112,7 @@ public class RestaurantController {
         newRestaurant.setUrl(restaurant.getUrl());
         newRestaurant.setAllowed(restaurant.isAllowed());
 
-        restaurantRepository.save(newRestaurant);
+        restaurantService.saveRestaurant(newRestaurant);
         model.addAttribute("result", "success");
         model.addAttribute("newRest", new Restaurant());
         return "new_restaurant";
@@ -129,8 +120,8 @@ public class RestaurantController {
 
     @RequestMapping(value = "/admin/editRestaruants", method = RequestMethod.GET)
     String editRestaurants(Model model) {
-        List<Restaurant> allRest = restaurantRepository.findAll();
-        List<Restaurant> pendingRest = restaurantRepository.findByAllowed(false);
+        List<Restaurant> allRest = restaurantService.getAllRestaurant();
+        List<Restaurant> pendingRest = restaurantService.getByAllowed(false);
         model.addAttribute("allRest", allRest);
         model.addAttribute("pendingRest", pendingRest);
         return "edit_restaurants";
@@ -138,7 +129,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "/edit/restaurant/{id}", method = RequestMethod.GET)
     String editRestaurant(Model model, @PathVariable("id") long restaurantId) {
-        Restaurant restaurant = restaurantRepository.findOne(restaurantId);
+        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
         EditRestaurant er = new EditRestaurant();
         er.setAddress(restaurant.getAddress());
         er.setDescription(restaurant.getDescription());
@@ -162,7 +153,7 @@ public class RestaurantController {
             model.addAttribute("restaurant", restaurant);
             return "edit_rest";
         }
-        Restaurant newRestaurant = restaurantRepository.findOne(id);
+        Restaurant newRestaurant = restaurantService.getRestaurantById(id);
         newRestaurant.setId(restaurant.getId());
         newRestaurant.setAddress(restaurant.getAddress());
         newRestaurant.setDescription(restaurant.getDescription());
@@ -182,9 +173,9 @@ public class RestaurantController {
         newRestaurant.setUrl(restaurant.getUrl());
         newRestaurant.setAllowed(restaurant.isAllowed());
 
-        restaurantRepository.save(newRestaurant);
-        List<Restaurant> allRest = restaurantRepository.findAll();
-        List<Restaurant> pendingRest = restaurantRepository.findByAllowed(false);
+        restaurantService.saveRestaurant(newRestaurant);
+        List<Restaurant> allRest = restaurantService.getAllRestaurant();
+        List<Restaurant> pendingRest = restaurantService.getByAllowed(false);
         model.addAttribute("allRest", allRest);
         model.addAttribute("pendingRest", pendingRest);
         return "edit_restaurants";
@@ -193,9 +184,9 @@ public class RestaurantController {
     @RequestMapping(value = "/delete/restaurant", method = RequestMethod.DELETE)
     @ResponseBody
     String handleDeleteRestaurant(Model model, @RequestParam("id") long id) {
-        restaurantRepository.delete(id);
-        List<Restaurant> allRest = restaurantRepository.findAll();
-        List<Restaurant> pendingRest = restaurantRepository.findByAllowed(false);
+        restaurantService.deleteRestaurantById(id);
+        List<Restaurant> allRest = restaurantService.getAllRestaurant();
+        List<Restaurant> pendingRest = restaurantService.getByAllowed(false);
         model.addAttribute("allRest", allRest);
         model.addAttribute("pendingRest", pendingRest);
         return "edit_restaurants";
@@ -203,7 +194,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "/restaurant/{id}", method = RequestMethod.GET)
     String getRestaurant(Model model, @PathVariable("id") long id) {
-        Restaurant rest = restaurantRepository.findOne(id);
+        Restaurant rest = restaurantService.getRestaurantById(id);
         if (rest == null || !rest.getAllowed()) {
             return "badRestaurant";
         }

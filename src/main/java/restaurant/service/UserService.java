@@ -67,4 +67,11 @@ public class UserService {
     public Page<User> getUsersPage(int page) {
         return userRepository.findAll(new PageRequest(page, 5, new Sort(Sort.Direction.ASC, "email")));
     }
+
+    public User getByEmail(String username) {
+        return userRepository.findByEmail(username);
+    }
+
 }
+
+

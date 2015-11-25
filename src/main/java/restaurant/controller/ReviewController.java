@@ -10,19 +10,22 @@ import restaurant.domain.User;
 import restaurant.repository.RestaurantRepository;
 import restaurant.repository.ReviewRepository;
 import restaurant.repository.UserRepository;
+import restaurant.service.RestaurantService;
+import restaurant.service.ReviewService;
+import restaurant.service.UserService;
 
 import java.util.List;
 
 @Controller
 public class ReviewController {
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    RestaurantService restaurantService;
 
     @Autowired
-    ReviewRepository reviewRepository;
+    ReviewService reviewService;
 
     @RequestMapping(value = "/remote/restaurant/{id}/saverating", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
@@ -31,10 +34,10 @@ public class ReviewController {
                       @PathVariable("id") long restaurantId) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User loggedInUser = userRepository.findByEmail(username);
+        User loggedInUser = userService.getUserByEmail(username);
 
-        Restaurant restaurant = restaurantRepository.findOne(restaurantId);
-        Review review = reviewRepository.findByRatedRestaurantAndRatedUser(restaurant, loggedInUser);
+        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+        Review review = reviewService.getByRatedRestaurantAndRatedUser(loggedInUser, restaurant);
         if (review == null) {
             review = new Review();
         }
@@ -57,9 +60,9 @@ public class ReviewController {
             default:
                 state = "error";
         }
-        reviewRepository.save(review);
+        reviewService.saveReview(review);
 
-        List<Review> reviewList = reviewRepository.findByRatedRestaurant(restaurant);
+        List<Review> reviewList = reviewService.getByRatedRestaurant(restaurant);
 
         int countEnvir = 0;
         int countSpeedServ = 0;
@@ -97,7 +100,7 @@ public class ReviewController {
         if(countServ>0)
             restaurant.setValueOfServiceScore(sumServ/countServ);
 
-        restaurantRepository.save(restaurant);
+        restaurantService.saveRestaurant(restaurant);
 
         String result="[\""+restaurant.getEnvironmentScore()+"\"," +
                 "\""+restaurant.getSpeedOfServiceScore()+"\"," +
@@ -106,4 +109,5 @@ public class ReviewController {
 
         return result;
     }
+
 }

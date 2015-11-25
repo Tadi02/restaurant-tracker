@@ -25,4 +25,23 @@ public class RestaurantService {
     public List<Restaurant> getRestaurants(RestaurantSearchParams restaurantSearchParams) {
         return restaurantRepository.findAll(restaurantSearch(restaurantSearchParams));
     }
+
+    public List<Restaurant> getByAllowed(boolean allow) {
+        return restaurantRepository.findByAllowed(allow);
+    }
+
+    public void saveRestaurant(Restaurant newRestaurant) {
+        restaurantRepository.save(newRestaurant);
+    }
+
+    public List<Restaurant> getAllRestaurant() {
+        return restaurantRepository.findAll();
+    }
+
+    public Restaurant getRestaurantById(long restaurantId) {
+        return restaurantRepository.findOne(restaurantId);
+    }
+    public void deleteRestaurantById(long id) {
+        restaurantRepository.delete(id);
+    }
 }
