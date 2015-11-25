@@ -1,14 +1,9 @@
 package restaurant.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.Email;
-import org.springframework.beans.factory.annotation.Required;
 import restaurant.domain.PriceCategory;
 
-import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Lob;
 import javax.validation.constraints.Size;
 
 public class EditRestaurant {
@@ -38,7 +33,7 @@ public class EditRestaurant {
     @Size(min = 1, max = 100)
     private String address;
 
-    @Size(min = 1, max = 11)
+    @Size(min = 1, max = 50)
     private String phoneNumber;
 
     @Size(min=1)
@@ -95,27 +90,29 @@ public class EditRestaurant {
         this.description = description;
     }
 
-    public float getGpsCoordX() {
+    public String getGpsCoordX() {
         return gpsCoordX;
     }
 
-    public void setGpsCoordX(float gpsCoordX) {
+    public void setGpsCoordX(String gpsCoordX) {
         this.gpsCoordX = gpsCoordX;
     }
 
-    public float getGpsCoordY() {
+    public String getGpsCoordY() {
         return gpsCoordY;
     }
 
-    public void setGpsCoordY(float gpsCoordY) {
+    public void setGpsCoordY(String gpsCoordY) {
         this.gpsCoordY = gpsCoordY;
     }
 
     private String description;
 
-    private float gpsCoordX;
+    @Size(min = 1)
+    private String gpsCoordX = "0";
 
-    private float gpsCoordY;
+    @Size(min = 1)
+    private String gpsCoordY = "0";
 
 }
 

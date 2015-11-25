@@ -17,7 +17,7 @@
                     <div class="small-8 columns">
                         <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? error : ''"/>
                     </div>
-                    <div th:if="${#fields.hasErrors('name')}" class="small-9 columns error">
+                    <div th:if="${#fields.hasErrors('name')}" class="small-8 columns error">
                         <small class="error" th:errors="*{name}"></small>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                     <div class="small-8 columns">
                         <input type="text" th:field="*{address}" th:class="${#fields.hasErrors('address')}? error : ''"/>
                     </div>
-                    <div th:if="${#fields.hasErrors('address')}" class="small-9 columns error">
+                    <div th:if="${#fields.hasErrors('address')}" class="small-8 columns error">
                         <small class="error" th:errors="*{address}"></small>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="small-8 columns">
                         <input type="text" th:field="*{phoneNumber}" th:class="${#fields.hasErrors('phoneNumber')}? error : ''"/>
                     </div>
-                    <div th:if="${#fields.hasErrors('phoneNumber')}" class="small-9 columns error">
+                    <div th:if="${#fields.hasErrors('phoneNumber')}" class="small-8 columns error">
                         <small class="error" th:errors="*{phoneNumber}"></small>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                     <div class="small-8 columns">
                         <input type="text" th:field="*{url}" th:class="${#fields.hasErrors('url')}? error : ''"/>
                     </div>
-                    <div th:if="${#fields.hasErrors('url')}" class="small-9 columns error">
+                    <div th:if="${#fields.hasErrors('url')}" class="small-8 columns error">
                         <small class="error" th:errors="*{url}"></small>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                     <div class="small-8 columns">
                         <textarea rows="4" th:field="*{description}" th:class="${#fields.hasErrors('description')}? error : ''"/>
                     </div>
-                    <div th:if="${#fields.hasErrors('description')}" class="small-9 columns error">
+                    <div th:if="${#fields.hasErrors('description')}" class="small-8 columns error">
                         <small class="error" th:errors="*{description}"></small>
                     </div>
                 </div>
@@ -75,10 +75,10 @@
                     <div class="small-3 left columns">
                         <input type="text" th:field="*{gpsCoordY}" th:class="${#fields.hasErrors('gpsCoordY')}? error : ''"/>
                     </div>
-                    <div th:if="${#fields.hasErrors('gpsCoordX')}" class="small-9 columns error">
+                    <div th:if="${#fields.hasErrors('gpsCoordX')}" class="small-8 columns error">
                         <small class="error" th:errors="*{gpsCoordX}"></small>
                     </div>
-                    <div th:if="${#fields.hasErrors('gpsCoordY')}" class="small-9 columns error">
+                    <div th:if="${#fields.hasErrors('gpsCoordY')}" class="small-8 columns error">
                         <small class="error" th:errors="*{gpsCoordY}"></small>
                     </div>
                 </div>
