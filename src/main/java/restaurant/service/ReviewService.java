@@ -86,13 +86,13 @@ public class ReviewService {
             }
         }
         if (countEnvir > 0)
-            restaurant.setEnvironmentScore(sumEnvir / countEnvir);
+            restaurant.setEnvironmentScore((double)sumEnvir / (double)countEnvir);
         if (countSpeedServ > 0)
-            restaurant.setSpeedOfServiceScore(sumSpeedServ / countSpeedServ);
+            restaurant.setSpeedOfServiceScore((double)sumSpeedServ / (double)countSpeedServ);
         if (countDish > 0)
-            restaurant.setValueOfMealScore(sumDish / countDish);
+            restaurant.setValueOfMealScore((double)sumDish / (double)countDish);
         if (countServ > 0)
-            restaurant.setValueOfServiceScore(sumServ / countServ);
+            restaurant.setValueOfServiceScore((double)sumServ / (double)countServ);
 
         restaurantService.saveRestaurant(restaurant);
 
